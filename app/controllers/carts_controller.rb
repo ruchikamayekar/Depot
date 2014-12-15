@@ -1,6 +1,16 @@
 class CartsController < ApplicationController
-  def  show
-    @cart = Cart.find(params[:id])
+  def show
+    begin
+      @cart = Cart.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      logger.error "Attempt to access invalid cart #{params[:id]}"
+      redirect_to root_path, notice: 'Invalid cart'
+    else
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml { render xml: @cart }
+      end
+    end
   end
   def  index
     @cart = Cart.all
@@ -23,9 +33,13 @@ class CartsController < ApplicationController
   # end
 
   def  destroy
-    @cart = Cart.find(params[:id])
+    @cart = current_cart
     @cart.destroy
-    redirect_to carts_path
+    session[:cart_id] = nil
+    respond_to do |format|
+      format.html { redirect_to(root_path, notice: 'Your cart is currently empty') }
+      format.xml { head :ok }
+    end
   end
   # def cart_values
   #   params.require(:cart).permit(:cart_id, :title, :description, :img_url, :price)

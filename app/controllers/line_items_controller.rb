@@ -1,15 +1,19 @@
 class LineItemsController < ApplicationController
+  # respond_to :html, :js
   def create
     @cart = current_cart
     product = Product.find(params[:product_id]) # product is local variable here because there is no need to make this available
 #to the view.
-    @line_item = @cart.line_items.build(product: product)
+    @line_item = @cart.add_product(product.id)
+    # @line_item = @cart.line_items.build(product: product)
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to(@line_item.cart, notice: 'Line item was successfully created.') }
+        format.html { redirect_to(root_path) }
+        # format.html { redirect_to(@line_item.cart) }
+        format.js { @current_item = @line_item }
         format.xml { render xml: @line_item, status: :created, location: @line_item }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.xml { render xml: @line_item.errors, status: :unprocessable_entity }
       end
     end
