@@ -1,0 +1,8 @@
+<h1>Edit Order</h1>
+<%= form_for @order, url: {action: 'update'} do |f| %>
+<p>Client Name: <%= f.text_field :name %></p><br />
+<p>Trainer : <%= f.text_field :address %></p><br />
+<p>Duration in min: <%= f.text_field :email %></p><br />
+<p>Workout date: <%= f.date_select :pay_type %></p><br />
+<%= f.submit "Update" %>
+<% end %>

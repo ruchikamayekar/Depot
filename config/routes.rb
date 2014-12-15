@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   resources :products
   resources :line_items
   resources :carts
+  resources :orders
+
   # Example resource route with options:
   #   resources :products do
   #     member do
