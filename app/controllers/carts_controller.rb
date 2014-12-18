@@ -1,4 +1,6 @@
 class CartsController < ApplicationController
+  skip_before_action :authorize, only: [:create, :update, :destroy]
+
   def show
     begin
       @cart = Cart.find(params[:id])
@@ -18,20 +20,6 @@ class CartsController < ApplicationController
   def  new
     @cart = Cart.new
   end
-  # def  create
-  #   @cart = Cart.new(product_values)
-  #   @cart.save
-  #   redirect_to carts_path(@cart)
-  # end
-  # def edit
-  #   @cart = Cart.find(params[:id])
-  # end
-  # def  update
-  #   @cart = Cart.find(params[:id])
-  #   @cart.update_attributes(cart_values)
-  #   redirect_to cart_path(@cart.id)
-  # end
-
   def  destroy
     @cart = current_cart
     @cart.destroy
@@ -41,7 +29,9 @@ class CartsController < ApplicationController
       format.xml { head :ok }
     end
   end
-  # def cart_values
-  #   params.require(:cart).permit(:cart_id, :title, :description, :img_url, :price)
-  # end
+  private
+  def invalid_cart
+    logger.error "Attempt to access invalid cart #{params[:id]}"
+    redirect_to store_url, notice: 'Invalid cart'
+  end
 end
