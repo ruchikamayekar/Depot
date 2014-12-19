@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
         session[:cart_id] = nil
         # debugger
         OrderNotifier.received(@order).deliver #step 2: when to send the mail
-        format.html { redirect_to(root_path, notice: 'Thank you for your order.') }
+        format.html { redirect_to(root_path, notice: I18n.t(:thanks)) }
         format.xml { render xml: @order, status: :created, location: @order }
       else
         format.html { render action: :new }

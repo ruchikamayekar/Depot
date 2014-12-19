@@ -14,7 +14,7 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.raise_delivery_errors = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -31,7 +31,7 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
-  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.perform_deliveries = true
 
 
   # Raises error for missing translations
@@ -40,16 +40,16 @@ Rails.application.configure do
     # config.action_mailer.delivery_method = :test
     # config.action_mailer.delivery_method = :sendmail
 
-    config.action_mailer.default_url_options = { host: 'localhost:3000' }
+    # config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address:              "smtp.gmail.com",
-      port:                 587,
-      domain:               "rhmayekar@gmail.com",
-      authentication:       "plain",
-      user_name:            "rhmayekar",
-      password:             "ruchika92",
+      address: "smtp.gmail.com",
+      port: 587,
+      domain: "domain.of.sender.net",
+      authentication: "plain",
+      user_name: "dave",
+      password: "secret",
       enable_starttls_auto: true
     }
     # ActionMailer::Base.default_url_options[:host] = "localhost:3000"

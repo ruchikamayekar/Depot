@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'store#index'
+  # root 'store#index'
 
   get 'admin' => 'admin#index'
   controller :sessions do
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   # get 'admin/index'
 
-  get 'sessions/new'
+  # get 'sessions/new'
 
   get 'sessions/create'
 
@@ -33,9 +33,9 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-  resources :line_items
-  resources :carts
-  resources :orders
+  # resources :line_items
+  # resources :carts
+  # resources :orders
   resources :users
 
   resources :products do
@@ -43,7 +43,12 @@ Rails.application.routes.draw do
   end
 
 
-
+  scope '(:locale)' do
+    resources :orders
+    resources :line_items
+    resources :carts
+    root 'store#index', as: 'root', via: :all
+  end
   # Example resource route with options:
   #   resources :products do
   #     member do

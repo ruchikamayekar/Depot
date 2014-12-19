@@ -8,8 +8,13 @@
   </head>
   <body id="store" >
     <div id="banner" >
+      <%= form_tag root_path, class: 'locale' do %>
+        <%= select_tag 'set_locale', options_for_select(LANGUAGES, I18n.locale.to_s), onchange: 'this.form.submit()' %>
+        <%= submit_tag 'submit' %>
+        <%= javascript_tag "$('.locale input').hide()" %>
+      <% end %>
       <%= image_tag("logo.png") %>
-      <%= @page_title || "Pragmatic Bookshelf" %>
+      <%= @page_title || t(:title) %>
     </div>
     <div id="columns" >
       <div id="side" >
@@ -20,13 +25,11 @@
             <% end %>
           <% end %>
         </div>
-        <a href="http://localhost:3000" >Home</a><br />
-        <a href="http://www..../faq" >Questions</a><br />
-        <a href="http://www..../news" >News</a><br />
-        <a href="http://www..../contact" >Contact</a><br />
+        <a href="http://localhost:3000" ><%= t(:home) %></a><br />
+        <a href="http://www..../faq" ><%= t(:questions) %></a><br />
+        <a href="http://www..../news" ><%= t(:news) %></a><br />
+        <a href="http://www..../contact" ><%= t(:contact) %></a><br />
         <p><%= Time.now.strftime("First visited on %m/%d/%Y %I:%M%p")%></p>
-        <p><%= l Time.now, format: :short %><p>
-
         <% if session[:user_id] %>
           <ul>
             <li><%= link_to 'Orders', orders_path %></li>
@@ -35,7 +38,6 @@
           </ul>
           <%= button_to 'Logout', logout_path, method: :delete %>
         <% end %>
-
       </div>
       <div id="main" >
         <%= yield %>

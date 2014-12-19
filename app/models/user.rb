@@ -3,13 +3,13 @@ class User < ActiveRecord::Base
   # has_secure_password(validations: false)
   has_secure_password
 
-  # after_destroy :ensure_an_admin_remains
-  # private
-  # def ensure_an_admin_remains
-  #   if User.count.zero?
-  #   raise "Can't delete current user"
-  #   end
-  # end
+  after_destroy :ensure_an_admin_remains
+  private
+  def ensure_an_admin_remains
+    if User.count.zero?
+    raise "Can't delete current user"
+    end
+  end
 
   # befor_destroy :do_not_delete_self
   # def do_not_delete_self
