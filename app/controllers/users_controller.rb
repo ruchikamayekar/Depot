@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  # before_destroy :do_not_delete_self
   def index
     @users = User.order(:name)
   end
@@ -12,6 +13,8 @@ class UsersController < ApplicationController
   end
 
   def update
+    # byebug
+    @user = User.find(params[:id])
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
@@ -24,18 +27,23 @@ class UsersController < ApplicationController
   end
 
   def edit
+    # byebug
     @user = User.find(params[:id])
   end
 
   def destroy
-    byebug
-    begin
-      @user = User.find(params[:id])
-      @user.destroy
-      flash[:notice] = "User #{@user.name} deleted"
-    rescue StandardError => e
-      flash[:notice] = e.message
-    end
+    # byebug
+    @user = User.find(params[:id])
+    # begin
+      unless @user.id == session[:user_id]
+        @user.destroy
+        flash[:notice] = "User #{@user.name} deleted"
+      else
+        flash[:notice] = "Can't delete self record"
+      end
+    # rescue StandardError => e
+    #   flash[:notice] = e.message
+    # end
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
@@ -58,4 +66,13 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :password, :password_confirmation)
   end
+
+  # def do_not_delete_self
+  #   @user = User.find(params[:id])
+  #   # begin
+  #   if @user.id == session[:user_id]
+  #     flash[:notice] = "Don't delete self"
+  #   end
+  #   # rescue
+  # end
 end
